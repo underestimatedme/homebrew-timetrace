@@ -1,0 +1,37 @@
+class Timetraceagent < Formula
+  desc "Runner that executes Claude Code and Codex tasks sent from the TimeTrace app"
+  homepage "https://github.com/underestimatedme/TimeTraceAgent"
+  url "https://github.com/underestimatedme/TimeTraceAgent/archive/refs/tags/v0.3.0.tar.gz"
+  sha256 "f24da733e0b5c298e742cf772005b5399cdec1c25f98d277fe0dc476607d4096"
+  license "Apache-2.0"
+
+  depends_on :macos
+  depends_on "python@3.12"
+
+  def install
+    libexec.install "timetrace"
+    python = Formula["python@3.12"].opt_bin/"python3.12"
+    # TIMETRACE_LAUNCHER tells `tta agent install` to write this opt/ path into the
+    # LaunchAgent, so the background runner survives `brew upgrade`.
+    (bin/"timetrace").write <<~SH
+      #!/bin/sh
+      export TIMETRACE_LAUNCHER="#{opt_bin}/timetrace"
+      PYTHONUNBUFFERED=1 PYTHONPATH="#{opt_libexec}" exec "#{python}" -m timetrace "$@"
+    SH
+    chmod 0755, bin/"timetrace"
+    bin.install_symlink "timetrace" => "tta"
+  end
+
+  def caveats
+    <<~EOS
+      Finish setup (check tools, register repositories, pair with the iPhone app,
+      install the background runner):
+        tta setup
+    EOS
+  end
+
+  test do
+    assert_match "timetrace #{version}", shell_output("#{bin}/tta --version")
+    assert_match "timetrace #{version}", shell_output("#{bin}/timetrace --version")
+  end
+end
