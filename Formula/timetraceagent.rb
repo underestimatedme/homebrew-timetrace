@@ -1,8 +1,8 @@
 class Timetraceagent < Formula
   desc "Runner that executes Claude Code and Codex tasks sent from the TimeTrace app"
   homepage "https://github.com/underestimatedme/TimeTraceAgent"
-  url "https://github.com/underestimatedme/TimeTraceAgent/archive/refs/tags/v0.3.0.tar.gz"
-  sha256 "f24da733e0b5c298e742cf772005b5399cdec1c25f98d277fe0dc476607d4096"
+  url "https://github.com/underestimatedme/TimeTraceAgent/archive/refs/tags/v0.5.0.tar.gz"
+  sha256 "c9499cd20d9ed4a7472ca88604b765d82eb2df06f4b81d23ceffb26260786ded"
   license "Apache-2.0"
 
   depends_on :macos
