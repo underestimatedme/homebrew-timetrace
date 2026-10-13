@@ -4,6 +4,7 @@ class Timetraceagent < Formula
   url "https://github.com/underestimatedme/TimeTraceAgent/archive/refs/tags/v0.5.1.tar.gz"
   sha256 "8312ecfc0972cc8af098b47fb718c9cf39e11b71c0d5ec780a5af35107061af7"
   license "Apache-2.0"
+  revision 1
 
   depends_on :macos
   depends_on "python@3.12"
@@ -16,7 +17,7 @@ class Timetraceagent < Formula
     (bin/"timetrace").write <<~SH
       #!/bin/sh
       export TIMETRACE_LAUNCHER="#{opt_bin}/timetrace"
-      PYTHONUNBUFFERED=1 PYTHONPATH="#{opt_libexec}" exec "#{python}" -m timetrace "$@"
+      PYTHONUNBUFFERED=1 PYTHONPATH="#{opt_libexec}" exec "#{python}" -P -m timetrace "$@"
     SH
     chmod 0755, bin/"timetrace"
     bin.install_symlink "timetrace" => "tta"
