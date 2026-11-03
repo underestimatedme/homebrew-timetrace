@@ -3,8 +3,8 @@ class Timetraceagent < Formula
 
   desc "Runner for TimeTrace configuration, delegation, checks, and delivery"
   homepage "https://github.com/underestimatedme/TimeTraceAgent"
-  url "https://github.com/underestimatedme/TimeTraceAgent/archive/refs/tags/v0.5.9rc1.tar.gz"
-  sha256 "8848386b581dc8f3ad686ba66d40f5591f5a461f8da8b8dc07663c1bb1f16d34"
+  url "https://github.com/underestimatedme/TimeTraceAgent/archive/refs/tags/v0.6.0.tar.gz"
+  sha256 "7b0dfb9317f7993b6d6d775961c32c34c8485479a1f9f5c25bee17a002a881c8"
   license "Apache-2.0"
 
   depends_on :macos
@@ -42,6 +42,7 @@ class Timetraceagent < Formula
     # Keep the stable opt/ launcher in launchd across brew upgrades.
     (bin/"timetrace").unlink
     (bin/"tta").unlink
+    (bin/"tts").unlink
     (bin/"timetrace").write <<~SH
       #!/bin/sh
       export TIMETRACE_LAUNCHER="#{opt_bin}/timetrace"
@@ -49,6 +50,7 @@ class Timetraceagent < Formula
     SH
     chmod 0755, bin/"timetrace"
     bin.install_symlink "timetrace" => "tta"
+    bin.install_symlink "timetrace" => "tts"
   end
 
   def caveats
@@ -62,6 +64,7 @@ class Timetraceagent < Formula
 
   test do
     assert_match "timetrace #{version}", shell_output("#{bin}/tta --version")
+    assert_match "timetrace #{version}", shell_output("#{bin}/tts --version")
     assert_match "release", shell_output("#{bin}/timetrace release --help")
     system libexec/"bin/python", "-I", "-c", "import playwright.sync_api"
   end
