@@ -3,8 +3,8 @@ class Timetraceagent < Formula
 
   desc "Runner for TimeTrace configuration, delegation, checks, and delivery"
   homepage "https://github.com/underestimatedme/TimeTraceAgent"
-  url "https://github.com/underestimatedme/TimeTraceAgent/archive/refs/tags/v0.6.6.tar.gz"
-  sha256 "0f5e0aa5bbc38abd103a731c28b19e92491324e0f85d6ac0022f85edf931447e"
+  url "https://github.com/underestimatedme/TimeTraceAgent/archive/refs/tags/v0.6.7.tar.gz"
+  sha256 "e426746450fd5e0c80a4e65b6801953d4f8df39a17058752164abbfe6a92be5c"
   license "Apache-2.0"
 
   depends_on :macos
@@ -67,5 +67,12 @@ class Timetraceagent < Formula
     assert_match "timetrace #{version}", shell_output("#{bin}/tts --version")
     assert_match "release", shell_output("#{bin}/timetrace release --help")
     system libexec/"bin/python", "-I", "-c", "import playwright.sync_api"
+
+    data = testpath/".timetrace"
+    ENV["TIMETRACE_HOME"] = data.to_s
+    (data/"config.json").write('{"claude":{"quota_probe":false}}')
+    assert_equal "false", shell_output("#{bin}/timetrace config get claude.quota_probe").strip
+    assert_empty pipe_output("#{bin}/timetrace statusline", '{"rate_limits":{"five_hour":{"used_percentage":5}}}', 0)
+    refute_path_exists data/"timetrace.db"
   end
 end
