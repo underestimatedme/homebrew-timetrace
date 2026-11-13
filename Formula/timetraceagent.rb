@@ -3,8 +3,8 @@ class Timetraceagent < Formula
 
   desc "Runner for TimeTrace configuration, delegation, checks, and delivery"
   homepage "https://github.com/underestimatedme/TimeTraceAgent"
-  url "https://github.com/underestimatedme/TimeTraceAgent/archive/refs/tags/v0.6.7.tar.gz"
-  sha256 "e426746450fd5e0c80a4e65b6801953d4f8df39a17058752164abbfe6a92be5c"
+  url "https://github.com/underestimatedme/TimeTraceAgent/archive/refs/tags/v0.6.8.tar.gz"
+  sha256 "44eff478a2d03ef20072c0b37cb0732ad5a75abdeeb372848bdbffcfd987aae0"
   license "Apache-2.0"
 
   depends_on :macos
